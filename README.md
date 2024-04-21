@@ -4,5 +4,5 @@
 
 
 ## Demonstration video
-https://github.com/zihaosheng/traffic-expertise-RL/assets/48112700/ae2ce062-3f3b-4215-b804-8448d32bb6fe
+https://github.com/zihaosheng/traffic-expertise-RL/assets/48112700/08a3a7ed-ca73-45bd-9ea8-8b93c165c268
 
