@@ -1,4 +1,7 @@
 # traffic-expertise-RL
+We are currently in the process of organizing our code and preparing it for release.
+
+Stay tuned for our upcoming open-source project on GitHub!
 
 <div align=center><img src=./assets/poster.png ></div>
 
