@@ -1,18 +1,8 @@
 # traffic-expertise-RL
 This repo provides code for our paper: [Traffic expertise meets residual RL: Knowledge-informed model-based residual reinforcement learning for CAV trajectory control]().
 
-We are currently in the process of organizing our code and preparing it for release.
-
-Stay tuned for our upcoming open-source project on GitHub!
-
 ## Introduction
 This paper introduces a knowledge-informed model-based residual reinforcement learning framework aimed at enhancing learning efficiency by infusing established traffic domain knowledge into the learning process and avoiding the issue of beginning from zero. 
-
-<div align=center><img src=./assets/poster.png ></div>
-
-
-### Demonstration video
-https://github.com/zihaosheng/traffic-expertise-RL/assets/48112700/67613b2c-4b3c-4b7a-b8b0-031ceb2632a1
 
 ## Devkit setup
 #### 1. Create conda environment
@@ -65,67 +55,101 @@ subprocess.call(
 ```
 </details>
 
-Revise the code from lines 34-43 in `flow/controllers/rlcontroller.py`:
+Revise the code in `flow/controllers/rlcontroller.py`:
 <details>
   <summary>Click to expand/collapse the code</summary>
   
 ```python
-def __init__(self, veh_id, car_following_params):
-    """Instantiate PISaturation."""
-    BaseController.__init__(self, veh_id, car_following_params, delay=1.0)
+"""Contains the RLController class."""
+import numpy as np
+from flow.controllers.base_controller import BaseController
 
-    # maximum achievable acceleration by the vehicle
-    self.max_accel = car_following_params.controller_params['accel']
 
-    # history used to determine AV desired velocity
-    self.v_history = []
+class RLController(BaseController):
+    """RL Controller.
 
-    # other parameters
-    self.gamma = 2
-    self.g_l = 7
-    self.g_u = 30
-    self.v_catch = 1
+    Vehicles with this class specified will be stored in the list of the RL IDs
+    in the Vehicles class.
 
-    # values that are updated by using their old information
-    self.alpha = 0
-    self.beta = 1 - 0.5 * self.alpha
-    self.U = 0
-    self.v_target = 0
-    self.v_cmd = 0
+    Usage: See base class for usage example.
 
-def get_accel(self, env):
-    """See parent class."""
-    lead_id = env.k.vehicle.get_leader(self.veh_id)
-    lead_vel = env.k.vehicle.get_speed(lead_id)
-    this_vel = env.k.vehicle.get_speed(self.veh_id)
+    Attributes
+    ----------
+    veh_id : str
+        Vehicle ID for SUMO identification
 
-    dx = env.k.vehicle.get_headway(self.veh_id)
-    dv = lead_vel - this_vel
-    dx_s = max(2 * dv, 4)
+    Examples
+    --------
+    A set of vehicles can be instantiated as RL vehicles as follows:
 
-    # update the AV's velocity history
-    self.v_history.append(this_vel)
+        >>> from flow.core.params import VehicleParams
+        >>> vehicles = VehicleParams()
+        >>> vehicles.add(acceleration_controller=(RLController, {}))
 
-    if len(self.v_history) == int(38 / env.sim_step):
-        del self.v_history[0]
+    In order to collect the list of all RL vehicles in the next, run:
 
-    # update desired velocity values
-    v_des = np.mean(self.v_history)
-    v_target = v_des + self.v_catch \
-        * min(max((dx - self.g_l) / (self.g_u - self.g_l), 0), 1)
+        >>> from flow.envs import Env
+        >>> env = Env(...)
+        >>> rl_ids = env.k.vehicle.get_rl_ids()
+    """
 
-    # update the alpha and beta values
-    alpha = min(max((dx - dx_s) / self.gamma, 0), 1)
-    beta = 1 - 0.5 * alpha
 
-    # compute desired velocity
-    self.v_cmd = beta * (alpha * v_target + (1 - alpha) * lead_vel) \
-        + (1 - beta) * self.v_cmd
+    def __init__(self, veh_id, car_following_params):
+        """Instantiate PISaturation."""
+        BaseController.__init__(self, veh_id, car_following_params, delay=1.0)
 
-    # compute the acceleration
-    accel = (self.v_cmd - this_vel) / env.sim_step
+        # maximum achievable acceleration by the vehicle
+        self.max_accel = car_following_params.controller_params['accel']
 
-    return min(accel, self.max_accel)
+        # history used to determine AV desired velocity
+        self.v_history = []
+
+        # other parameters
+        self.gamma = 2
+        self.g_l = 7
+        self.g_u = 30
+        self.v_catch = 1
+
+        # values that are updated by using their old information
+        self.alpha = 0
+        self.beta = 1 - 0.5 * self.alpha
+        self.U = 0
+        self.v_target = 0
+        self.v_cmd = 0
+
+    def get_accel(self, env):
+        """See parent class."""
+        lead_id = env.k.vehicle.get_leader(self.veh_id)
+        lead_vel = env.k.vehicle.get_speed(lead_id)
+        this_vel = env.k.vehicle.get_speed(self.veh_id)
+
+        dx = env.k.vehicle.get_headway(self.veh_id)
+        dv = lead_vel - this_vel
+        dx_s = max(2 * dv, 4)
+
+        # update the AV's velocity history
+        self.v_history.append(this_vel)
+
+        if len(self.v_history) == int(38 / env.sim_step):
+            del self.v_history[0]
+
+        # update desired velocity values
+        v_des = np.mean(self.v_history)
+        v_target = v_des + self.v_catch \
+            * min(max((dx - self.g_l) / (self.g_u - self.g_l), 0), 1)
+
+        # update the alpha and beta values
+        alpha = min(max((dx - dx_s) / self.gamma, 0), 1)
+        beta = 1 - 0.5 * alpha
+
+        # compute desired velocity
+        self.v_cmd = beta * (alpha * v_target + (1 - alpha) * lead_vel) \
+            + (1 - beta) * self.v_cmd
+
+        # compute the acceleration
+        accel = (self.v_cmd - this_vel) / env.sim_step
+
+        return min(accel, self.max_accel)
 ```
 </details>
 
