@@ -7,7 +7,7 @@ import h5py
 import numpy as np
 import torch
 from torch import nn
-from algo.pinn import NN, PINN
+from algo.knowledge_nn import NN, KnowledgeNN
 import datetime
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
@@ -68,8 +68,8 @@ if __name__ == '__main__':
                     model = NN(args.input_dim, args.output_dim, hidden_size=args.hidden_size,
                                activation=args.activation, device=device)
                 else:
-                    model = PINN(args.input_dim, args.output_dim, hidden_size=args.hidden_size,
-                                 activation=args.activation, device=device)
+                    model = KnowledgeNN(args.input_dim, args.output_dim, hidden_size=args.hidden_size,
+                                        activation=args.activation, device=device)
 
                 # train and eval model
                 best_mse = 100000
@@ -115,8 +115,8 @@ if __name__ == '__main__':
                     best_model = NN(args.input_dim, args.output_dim, hidden_size=args.hidden_size,
                                     activation=args.activation)
                 else:
-                    best_model = PINN(args.input_dim, args.output_dim, hidden_size=args.hidden_size,
-                                      activation=args.activation)
+                    best_model = KnowledgeNN(args.input_dim, args.output_dim, hidden_size=args.hidden_size,
+                                             activation=args.activation)
 
                 best_model.load_state_dict(torch.load(args.model_save_path + '{}_best_val_{}.pth'.format(model_type, ratio)))
 
