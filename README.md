@@ -6,7 +6,7 @@ We are currently in the process of organizing our code and preparing it for rele
 Stay tuned for our upcoming open-source project on GitHub!
 
 ## Introduction
-This paper introduces a knowledge-informed model-based residual reinforcement learning framework aimed at enhancing learning efficiency by infusing established expert knowledge into the learning process and avoiding the issue of beginning from zero. 
+This paper introduces a knowledge-informed model-based residual reinforcement learning framework aimed at enhancing learning efficiency by infusing established traffic domain knowledge into the learning process and avoiding the issue of beginning from zero. 
 
 <div align=center><img src=./assets/poster.png ></div>
 
