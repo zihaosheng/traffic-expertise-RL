@@ -1,0 +1,11 @@
+lxml==4.4.1
+gym==0.14.0
+imutils==0.5.1
+traci==1.8.0
+h5py
+tqdm
+tensorboard
+six
+scipy
+matplotlib
+opencv-python
