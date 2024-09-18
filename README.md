@@ -198,6 +198,14 @@ python train_compare_datesize.py --seed 1234 --idm_data_path ./data/idm_data.h5
 ```
 The results of these scripts can also be viewed using TensorBoard.
 
+## Other Awesome Projects from Our Team
+
+Our team is actively involved in various innovative projects in the realm of autonomous driving. Here are some other exciting repositories that you might find interesting:
+
+- **[Physics-enhanced RLHF](https://github.com/zilin-huang/PE-RLHF)**
+- **[Human as AI mentor](https://zilin-huang.github.io/HAIM-DRL-website/)**
+  
+
 ## Reference
 ```latex
 @article{
