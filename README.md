@@ -199,7 +199,7 @@ The results of these scripts can also be viewed using TensorBoard.
 
 Our team is actively involved in various innovative projects in the realm of autonomous driving. Here are some other exciting repositories that you might find interesting:
 
-
+- **[VLM-RL](https://github.com/zihaosheng/VLM-RL)**
 - **[Physics-enhanced RLHF](https://zilin-huang.github.io/PE-RLHF-website/)**
 - **[Human as AI mentor](https://zilin-huang.github.io/HAIM-DRL-website/)**
   
