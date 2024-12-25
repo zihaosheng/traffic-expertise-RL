@@ -1,9 +1,6 @@
 # traffic-expertise-RL
 This repo provides code for our paper: [Traffic expertise meets residual RL: Knowledge-informed model-based residual reinforcement learning for CAV trajectory control](https://arxiv.org/abs/2408.17380).
 
-We are currently in the process of organizing our code and preparing it for release.
-
-Stay tuned for our upcoming open-source project on GitHub!
 
 ## Introduction
 This paper introduces a knowledge-informed model-based residual reinforcement learning framework aimed at enhancing learning efficiency by infusing established traffic domain knowledge into the learning process and avoiding the issue of beginning from zero. 
