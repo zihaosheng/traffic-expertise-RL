@@ -5,7 +5,7 @@ This repo provides code for our paper: [Traffic expertise meets residual RL: Kno
 ## Introduction
 This paper introduces a knowledge-informed model-based residual reinforcement learning framework aimed at enhancing learning efficiency by infusing established traffic domain knowledge into the learning process and avoiding the issue of beginning from zero. 
 
-<div align=center><img src=./assets/poster.png ></div>
+<div align=center><img src=./docs/static/images/poster.png ></div>
 
 
 ### Demonstration video
