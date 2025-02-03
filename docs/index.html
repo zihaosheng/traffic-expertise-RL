@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+          content="Traffic expertise meets residual RL: Knowledge-informed model-based residual reinforcement learning for CAV trajectory control">
+    <meta name="keywords"
+          content="Model-based reinforcement learning, residual policy learning, mixed traffic flow, connected automated vehicles">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Traffic-expertise-RL</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-PYVRSFMDRL');
+    </script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/smart-car.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+</head>
+<style>
+    .best {
+        background-color: rgb(255, 138, 138, 0.7);
+    }
+
+
+    .second-best {
+        background-color: rgb(255, 145, 0, 0.6);
+    }
+
+    #btt-bttn {
+        display: inline-block;
+        background-color: #209cee;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        border-radius: 4px;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        transition: background-color .3s,
+        opacity .5s, visibility .5s;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 1000;
+    }
+
+    #btt-bttn::after {
+        content: "\f077";
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 2em;
+        line-height: 50px;
+        color: #fff;
+    }
+
+    #btt-bttn:hover {
+        cursor: pointer;
+        background-color: #333;
+    }
+
+    #btt-bttn:active {
+        background-color: #555;
+    }
+
+    #btt-bttn.show {
+        opacity: 1;
+        visibility: visible;
+    }
+</style>
+
+<body>
+<a id="btt-bttn"></a>
+
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+            <a class="navbar-item" href="https://zihaosheng.github.io/">
+          <span class="icon">
+              <i class="fas fa-home"></i>
+          </span>
+            </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    More Research
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="https://zihaosheng.github.io/CurricuVLM/" target="_blank">
+                        CurricuVLM
+                    </a>
+                    <a class="navbar-item" href="https://www.huang-zilin.com/VLM-RL-website/" target="_blank">
+                        VLM-RL
+                    </a>
+                    <a class="navbar-item" href="https://www.huang-zilin.com/Sky-Drive-website/" target="_blank">
+                        Sky-Drive
+                    </a>
+                    <a class="navbar-item" href="https://www.huang-zilin.com/HAIM-DRL-website/" target="_blank">
+                        HAIM-DRL
+                    </a>
+                    <a class="navbar-item" href="https://www.huang-zilin.com/PE-RLHF-website/" target="_blank">
+                        PE-RLHF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!--Title-->
+<section class="hero" style="margin-top: -30px;">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <h1 class="title is-3 publication-title">Traffic expertise meets residual RL: Knowledge-informed
+                        model-based residual reinforcement learning for CAV trajectory control</h1>
+                    <div class="is-size-5 publication-authors">
+                        <span class="author-block">
+                            <a href="https://github.com/zihaosheng" target="_blank">Zihao Sheng</a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="https://github.com/zilin-huang" target="_blank">Zilin Huang</a>,
+                        </span>
+                        <span class="author-block">
+                            <a href="https://sky-lab-uw.github.io/" target="_blank">Sikai Chen</a><sup><i
+                                class="fa-regular fa-envelope"></i></sup>
+                        </span>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">University of Wisconsin-Madison</span>
+                            <span class="eql-cntrb"><br><small><sup><i class="fa-regular fa-envelope"></i></sup>Corresponding Author</small></span>
+                        </div>
+                    </div>
+                    <div class="column has-text-centered">
+                        <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2408.17380" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                            <span class="link-block">
+                  <a href="https://www.sciencedirect.com/science/article/pii/S2772424724000258" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                            <span class="link-block">
+                  <a href="https://github.com/zihaosheng/traffic-expertise-RL" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--video-->
+        <br>
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="image-container has-text-centered" style="max-width: 100%; margin: auto;">
+                    <img src="static/images/framework.jpg" alt="Descriptive Alt Text"
+                         style="width: 100%; height: auto;"/>
+                </div>
+            </div>
+            <h2 class="subtitle has-text-centered">
+                We propose a knowledge-informed model-based residual reinforcement learning framework that <strong>integrates
+                traffic expert knowledge with neural networks</strong> to enhance learning efficiency, improve traffic
+                flow, and optimize CAV trajectory control in mixed traffic environments.
+            </h2>
+        </div>
+    </div>
+</section>
+
+
+<!-- Abstract Section -->
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="container"
+             style="max-width: 990px; margin: auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+            <h2 class="title is-3" style="text-align: center;">Abstract</h2>
+            <div class="content" style="font-size: 16px; text-align: justify;">
+                Model-based reinforcement learning (RL) is anticipated to exhibit higher sample efficiency than
+                model-free RL by utilizing a virtual environment model. However, obtaining sufficiently accurate
+                representations of environmental dynamics is challenging because of uncertainties in complex systems and
+                environments. An inaccurate environment model may degrade the sample efficiency and performance of
+                model-based RL. Furthermore, while model-based RL can improve sample efficiency, it often still requires
+                substantial training time to learn from scratch, potentially limiting its advantages over model-free
+                approaches. To address these challenges, this paper introduces a knowledge-informed model-based residual
+                reinforcement learning framework aimed at enhancing learning efficiency by infusing established expert
+                knowledge into the learning process and avoiding the issue of beginning from zero. Our approach
+                integrates traffic expert knowledge into a virtual environment model, employing the intelligent driver
+                model (IDM) for basic dynamics and neural networks for residual dynamics, thus ensuring adaptability to
+                complex scenarios. We propose a novel strategy that combines traditional control methods with residual
+                RL, facilitating efficient learning and policy optimization without the need to learn from scratch. The
+                proposed approach is applied to connected automated vehicle (CAV) trajectory control tasks for the
+                dissipation of stop-and-go waves in mixed traffic flows. The experimental results demonstrate that our
+                proposed approach enables the CAV agent to achieve superior performance in trajectory control compared
+                with the baseline agents in terms of sample efficiency, traffic flow smoothness and traffic mobility.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Single Image with Title and Shadowed Container -->
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="container"
+             style="max-width: 990px; margin: auto; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); padding: 20px; background-color: white; border-radius: 8px;">
+            <h2 class="title is-3">Motivation</h2>
+            <div class="image-container has-text-centered" style="max-width: 100%; margin: auto;">
+                <img src="static/images/motivation.jpg" alt="Descriptive Alt Text" style="width: 100%; height: auto;"/>
+            </div>
+            <br>
+            <div class="subtitle-container" style="max-width: 100%; margin: auto;">
+                <h4 class="subtitle" style="font-size: 16px; text-align: justify;">
+                    Traditional RL for CAVs <strong>learns from scratch</strong>, leading to slow convergence and low
+                    sample efficiency. While traffic expertise provides a strong foundation, it <strong>lacks
+                    adaptability</strong> to complex, dynamic traffic conditions. Our approach integrates <strong>traffic
+                    expertise as a baseline</strong>, enabling the RL agent to <strong>start from a higher performance
+                    level</strong> and <strong>learn a residual policy</strong> on top. As shown in the figure, this
+                    accelerates learning, improves efficiency, and enhances CAV control in complex traffic scenarios.
+                </h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Single Image with Title and Shadowed Container -->
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="container"
+             style="max-width: 990px; margin: auto; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); padding: 20px; background-color: white; border-radius: 8px;">
+            <h2 class="title is-3">Visualization</h2>
+            <div class="image-container has-text-centered" style="max-width: 100%; margin: auto;">
+                <img src="static/images/demo.gif" alt="Descriptive Alt Text" style="width: 100%; height: auto;"/>
+            </div>
+            <br>
+            <div class="subtitle-container" style="max-width: 100%; margin: auto;">
+                <h4 class="subtitle" style="font-size: 16px; text-align: justify;">
+                    This visualization illustrates three traffic scenarios: <strong>Ring Network, Figure 8 Network, and
+                    Merge Network</strong>, to evaluate the impact of Connected Automated Vehicles (CAVs) on mixed
+                    traffic flow. The top row shows <strong>baseline conditions</strong> with only Human-Driven Vehicles
+                    (HDVs), where stop-and-go waves and congestion can emerge. The bottom row introduces CAVs,
+                    demonstrating their influence in <strong>smoothing traffic flow</strong> and <strong>reducing
+                    disruptions</strong>. The <strong>Ring Network</strong> and <strong>Figure 8 Network</strong>
+                    highlight how a single CAV can regulate surrounding traffic, while the <strong>Merge
+                    Network</strong> explores the effect of CAVs on highway merging efficiency.
+                </h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Single Image with Title and Shadowed Container -->
+<section class="hero is-small">
+    <div class="hero-body">
+        <div class="container"
+             style="max-width: 990px; margin: auto; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); padding: 20px; background-color: white; border-radius: 8px;">
+            <h2 class="title is-3">Poster</h2>
+            <div class="image-container has-text-centered" style="max-width: 100%; margin: auto;">
+                <img src="static/images/poster.png" alt="Descriptive Alt Text" style="width: 100%; height: auto;"/>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--BibTex citation -->
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <div style="position: relative;">
+            <button id="copyButton" style="position: absolute; top: 0; right: 0;">Copy</button>
+            <pre><code id="bibtexCode">@article{sheng2024traffic,
+ title={Traffic expertise meets residual RL: Knowledge-informed model-based residual reinforcement learning for CAV trajectory control},
+ author={Sheng, Zihao and Huang, Zilin and Chen, Sikai},
+ journal={Communications in Transportation Research},
+ year={2024},
+}</code></pre>
+        </div>
+    </div>
+</section>
+
+<script>
+    var copyButton = document.getElementById("copyButton");
+
+    copyButton.addEventListener("click", function () {
+        var codeElement = document.getElementById("bibtexCode");
+        var textToCopy = codeElement.textContent;
+
+        var textarea = document.createElement("textarea");
+        textarea.value = textToCopy;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+
+        copyButton.textContent = "✓ Copied!";
+
+        setTimeout(function () {
+            copyButton.textContent = "Copy";
+        }, 2000); // Reset the button text after 2 seconds (adjust as needed)
+    });
+</script>
+<!--End BibTex citation -->
+
+
+<!--Visitor Map-->
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <a class="icon-link" href="https://www.sciencedirect.com/science/article/pii/S2772424724000258"
+               target="_blank">
+                <i class="fas fa-file-pdf"></i>
+            </a>
+            <a class="icon-link" target="_blank" href="https://github.com/zihaosheng/traffic-expertise-RL"
+               class="external-link"
+               disabled>
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+        <div class="container has-text-centered">
+            <a href="https://www.easycounter.com/">
+                <img src="https://www.easycounter.com/counter.php?zihaosheng"
+                     border="0" alt="Web Site Hit Counter"></a>
+            visitors since January 2025.
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <div class="content">
+                    <p class="footer-paragraph">
+                        This page is adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies
+                        project
+                        page</a> and is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative
+                        Commons Attribution-ShareAlike 4.0 International License</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+
+<script>
+    var btn = $('#btt-bttn');
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+        } else {
+            btn.removeClass('show');
+        }
+    });
+
+    btn.on('click', function (e) {
+        e.preventDefault();
+        $('html, body').animate({scrollTop: 0}, '300');
+    });
+
+</script>
+
+</html>
